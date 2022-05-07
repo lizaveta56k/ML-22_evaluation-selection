@@ -8,6 +8,7 @@ authors = ["lizaveta56k <lizaveta.kaliaha@gmail.com>"]
 python = "^3.9"
 pandas = "^1.4.2"
 sklearn = "^0.0"
+scikit-learn = "^1.0.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
