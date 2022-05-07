@@ -1,8 +1,11 @@
 [tool.poetry]
-name = "poetry-task-9"
+name = "poetry_task_9"
 version = "0.1.0"
-description = ""
+description = "Task 9 project"
 authors = ["lizaveta56k <lizaveta.kaliaha@gmail.com>"]
+
+[tool.poetry.scripts]
+train = "poetry_task_9.train:train"
 
 [tool.poetry.dependencies]
 python = "^3.9"
