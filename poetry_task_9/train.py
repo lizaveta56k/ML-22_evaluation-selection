@@ -78,6 +78,10 @@ from .pipeline import create_pipeline
 @click.option(
     "--cv", default=5, type=int, show_default=True,
 )
+@click.option(
+    "--use_agglomerative_clustering", default=False, type=bool, show_default=True,
+)
+
 def train(
     dataset_path: Path,
     save_model_path: Path,
@@ -97,6 +101,7 @@ def train(
     n_features_to_select: int,
     use_cross_val: bool,
     cv: int,
+    use_agglomerative_clustering: bool
 ) -> None:
     features_train, features_val, target_train, target_val = get_dataset(
         dataset_path, random_state, test_split_ratio,
@@ -116,6 +121,7 @@ def train(
             threshold,
             n_neighbors,
             n_features_to_select,
+            use_agglomerative_clustering
         )
 
         pipeline.fit(features_train, target_train)

@@ -10,6 +10,7 @@ from sklearn.feature_selection import (
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.decomposition import TruncatedSVD
+from sklearn.cluster import AgglomerativeClustering
 
 def create_pipeline(
     use_scaler: bool,
@@ -25,9 +26,19 @@ def create_pipeline(
     threshold: float,
     n_neighbors: int,
     n_features_to_select: int,
+    use_agglomerative_clustering : bool
 ) -> Pipeline:
     pipeline_steps = []
     selector = SimpleImputer()
+    classifier = KMeans(
+                random_state=random_state,
+                n_clusters=n_clusters,
+                max_iter=max_iter,
+                n_init=n_init,
+            )
+
+    if use_agglomerative_clustering:
+         classifier = AgglomerativeClustering(n_clusters=n_clusters)
 
     if use_random_fores_classifier:
         selector = SelectFromModel(RandomForestClassifier(random_state=random_state))
@@ -61,12 +72,7 @@ def create_pipeline(
     pipeline_steps.append(
         (
             "classifier",
-            KMeans(
-                random_state=random_state,
-                n_clusters=n_clusters,
-                max_iter=max_iter,
-                n_init=n_init,
-            ),
+            classifier,
         )
     )
 
