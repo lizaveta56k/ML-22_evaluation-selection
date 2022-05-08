@@ -18,7 +18,7 @@ def test_error_for_invalid_test_split_ratio(
         train,
         [
             "--test-split-ratio",
-            42,
+            "42",
         ],
     )
     assert result.exit_code == 2
@@ -32,7 +32,7 @@ def test_error_for_invalid_max_iter(
         train,
         [
             "--max-iter",
-            0,
+            "0",
         ],
     )
     assert result.exit_code == 2
@@ -46,7 +46,7 @@ def test_error_for_invalid_n_init(
         train,
         [
             "--n_init",
-            0,
+            "0",
         ],
     )
     assert result.exit_code == 2
@@ -60,7 +60,7 @@ def test_error_for_invalid_n_clusters(
         train,
         [
             "--n_clusters",
-            0,
+            "0",
         ],
     )
     assert result.exit_code == 2

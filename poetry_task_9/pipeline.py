@@ -21,7 +21,7 @@ def create_pipeline(
     use_variance_threshold: bool,
     use_random_fores_classifier: bool,
     use_sequential_feature_selector: bool,
-    use_feature_reduction,
+    use_feature_reduction: bool,
     n_iter: int,
     threshold: float,
     n_neighbors: int,
