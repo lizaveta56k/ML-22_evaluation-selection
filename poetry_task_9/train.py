@@ -6,8 +6,7 @@ import numpy as np
 import mlflow
 import mlflow.sklearn
 from sklearn.metrics import accuracy_score
-from sklearn.model_selection import cross_validate
-
+from sklearn.model_selection import cross_validate, KFold
 
 from .data import get_dataset
 from .pipeline import create_pipeline
@@ -117,14 +116,13 @@ def train(
             threshold,
             n_neighbors,
             n_features_to_select,
-            use_cross_val,
-            cv,
         )
 
         pipeline.fit(features_train, target_train)
 
         if use_cross_val:
-            results = cross_validate(pipeline, features_train, features_val, cv=cv)
+            cross_validator = KFold(n_splits=cv)
+            results = cross_validate(pipeline, features_val, target_val, cv=cross_validator)
             accuracy = -np.mean(results["test_score"])
         else:
             accuracy = accuracy_score(target_val, pipeline.predict(features_val))
@@ -143,6 +141,7 @@ def train(
         mlflow.log_param("threshold", threshold)
         mlflow.log_param("n_neighbors", n_neighbors)
         mlflow.log_param("n_features_to_select", n_features_to_select)
+        mlflow.log_param("use_cross_val", use_cross_val)
 
         mlflow.log_metric("accuracy", accuracy)
         click.echo(f"Accuracy: {accuracy}.")

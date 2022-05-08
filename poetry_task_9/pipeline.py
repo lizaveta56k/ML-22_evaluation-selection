@@ -11,7 +11,6 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.decomposition import TruncatedSVD
 
-
 def create_pipeline(
     use_scaler: bool,
     n_clusters: int,
@@ -26,8 +25,6 @@ def create_pipeline(
     threshold: float,
     n_neighbors: int,
     n_features_to_select: int,
-    use_cross_val: bool,
-    cv: int,
 ) -> Pipeline:
     pipeline_steps = []
     selector = SimpleImputer()
