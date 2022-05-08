@@ -16,5 +16,5 @@ def get_dataset(
     features_train, features_val, target_train, target_val = train_test_split(
         features, target, test_size=test_split_ratio, random_state=random_state
     )
-    
+
     return features_train, features_val, target_train, target_val
