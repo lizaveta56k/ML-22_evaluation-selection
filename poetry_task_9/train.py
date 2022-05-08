@@ -2,9 +2,12 @@ from pathlib import Path
 from joblib import dump
 
 import click
+import numpy as np
 import mlflow
 import mlflow.sklearn
 from sklearn.metrics import accuracy_score
+from sklearn.model_selection import cross_validate
+
 
 from .data import get_dataset
 from .pipeline import create_pipeline
@@ -86,7 +89,7 @@ from .pipeline import create_pipeline
 )
 @click.option(
     "--n_iter",
-    default=10,
+    default=100,
     type=int,
     show_default=True,
 )
@@ -108,6 +111,18 @@ from .pipeline import create_pipeline
     type=int,
     show_default=True,
 )
+@click.option(
+    "--use_cross_val",
+    default=True,
+    type=bool,
+    show_default=True,
+)
+@click.option(
+    "--cv",
+    default=5,
+    type=int,
+    show_default=True,
+)
 
 def train(
     dataset_path: Path,
@@ -125,7 +140,9 @@ def train(
     n_iter: int,
     threshold: float,
     n_neighbors: int,
-    n_features_to_select: int
+    n_features_to_select: int,
+    use_cross_val: bool,
+    cv: int
 ) -> None:
     features_train, features_val, target_train, target_val = get_dataset(
         dataset_path,
@@ -135,10 +152,16 @@ def train(
     with mlflow.start_run():
         pipeline = create_pipeline(use_scaler, n_clusters, max_iter, n_init, random_state,
          use_variance_threshold, use_random_fores_classifier, use_sequential_feature_selector, use_feature_reduction,
-         n_iter, threshold, n_neighbors, n_features_to_select)
+         n_iter, threshold, n_neighbors, n_features_to_select, use_cross_val, cv)
 
         pipeline.fit(features_train, target_train)
-        accuracy = accuracy_score(target_val, pipeline.predict(features_val))
+
+        if use_cross_val:
+            results = cross_validate(pipeline, features_train, features_val, cv=cv)
+            accuracy = -np.mean(results['test_score'])
+        else:
+            accuracy = accuracy_score(target_val, pipeline.predict(features_val))
+
         mlflow.log_param("use_scaler", use_scaler)
         mlflow.log_param("n_clusters", n_clusters)
         mlflow.log_param("max_iter", max_iter)

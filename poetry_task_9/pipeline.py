@@ -10,7 +10,8 @@ from sklearn.decomposition import TruncatedSVD
 def create_pipeline(
     use_scaler: bool, n_clusters: int, max_iter: int, n_init: int, random_state: int,
      use_variance_threshold: bool, use_random_fores_classifier: bool, use_sequential_feature_selector: bool,
-     use_feature_reduction, n_iter: int, threshold: float, n_neighbors: int, n_features_to_select: int
+     use_feature_reduction, n_iter: int, threshold: float, n_neighbors: int, n_features_to_select: int,
+     use_cross_val: bool, cv: int
 ) -> Pipeline:
     pipeline_steps = []
     selector = SimpleImputer()
