@@ -136,7 +136,7 @@ def train(
         pipeline = create_pipeline(use_scaler, n_clusters, max_iter, n_init, random_state,
          use_variance_threshold, use_random_fores_classifier, use_sequential_feature_selector, use_feature_reduction,
          n_iter, threshold, n_neighbors, n_features_to_select)
-         
+
         pipeline.fit(features_train, target_train)
         accuracy = accuracy_score(target_val, pipeline.predict(features_val))
         mlflow.log_param("use_scaler", use_scaler)
@@ -147,6 +147,11 @@ def train(
         mlflow.log_param("use_random_fores_classifier", use_random_fores_classifier)
         mlflow.log_param("use_sequential_feature_selector", use_sequential_feature_selector)
         mlflow.log_param("use_feature_reduction", use_feature_reduction)
+        mlflow.log_param("n_iter", n_iter)
+        mlflow.log_param("threshold", threshold)
+        mlflow.log_param("n_neighbors", n_neighbors)
+        mlflow.log_param("n_features_to_select", n_features_to_select)
+
         mlflow.log_metric("accuracy", accuracy)
         click.echo(f"Accuracy: {accuracy}.")
         dump(pipeline, save_model_path)
