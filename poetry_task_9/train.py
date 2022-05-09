@@ -148,6 +148,7 @@ def train(
         mlflow.log_param("n_neighbors", n_neighbors)
         mlflow.log_param("n_features_to_select", n_features_to_select)
         mlflow.log_param("use_cross_val", use_cross_val)
+        mlflow.log_param("use_agglomerative_clustering", use_agglomerative_clustering)
 
         mlflow.log_metric("accuracy", accuracy)
         click.echo(f"Accuracy: {accuracy}.")
