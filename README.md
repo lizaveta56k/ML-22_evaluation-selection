@@ -4,6 +4,10 @@ Homework for RS School Machine Learning course.
 
 This project uses [Forest train](https://www.kaggle.com/competitions/forest-cover-type-prediction) dataset.
 
+## Results
+[data folder screenshot](https://github.com/lizaveta56k/ML-22_evaluation-selection/blob/main/data_folder.png)
+[mlflow results screenshot](https://github.com/lizaveta56k/ML-22_evaluation-selection/blob/main/mlflow_results.png)
+[mypy results screenshot](https://github.com/lizaveta56k/ML-22_evaluation-selection/blob/main/mypy_results.png)
 
 ## Usage
 This package allows you to train model to classify forest categories.
