@@ -16,6 +16,8 @@ This project uses [Forest train](https://www.kaggle.com/competitions/forest-cove
 
 5. [nox results screenshot](https://github.com/lizaveta56k/ML-22_evaluation-selection/blob/main/nox_results.png)
 
+6. [github-actions results screenshot](https://github.com/lizaveta56k/ML-22_evaluation-selection/blob/main/github-actions_results.png)
+
 
 ## Usage
 This package allows you to train model to classify forest categories.
