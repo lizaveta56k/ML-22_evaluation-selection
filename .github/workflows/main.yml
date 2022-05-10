@@ -22,17 +22,15 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
-      - uses: ./
-      - run: nox
-
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
-
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v3
+      - name: Set up Miniconda
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          auto-update-conda: true
+      - name: Install Nox-under-test
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+          python -m pip install --disable-pip-version-check .
+      - name: Run tests
+        run: nox --non-interactive --error-on-missing-interpreter  --full-trace
