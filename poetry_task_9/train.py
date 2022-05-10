@@ -28,7 +28,10 @@ from .pipeline import create_pipeline
     show_default=True,
 )
 @click.option(
-    "--random-state", default=42, type=int, show_default=True,
+    "--random-state",
+    default=42,
+    type=int,
+    show_default=True,
 )
 @click.option(
     "--test-split-ratio",
@@ -37,51 +40,95 @@ from .pipeline import create_pipeline
     show_default=True,
 )
 @click.option(
-    "--use-scaler", default=True, type=bool, show_default=True,
+    "--use-scaler",
+    default=True,
+    type=bool,
+    show_default=True,
 )
 @click.option(
-    "--max-iter", default=100, type=click.IntRange(min=1), show_default=True,
+    "--max-iter",
+    default=100,
+    type=click.IntRange(min=1),
+    show_default=True,
 )
 @click.option(
-    "--n_init", default=10, type=click.IntRange(min=1), show_default=True,
+    "--n_init",
+    default=10,
+    type=click.IntRange(min=1),
+    show_default=True,
 )
 @click.option(
-    "--n_clusters", default=7, type=click.IntRange(min=1), show_default=True,
+    "--n_clusters",
+    default=7,
+    type=click.IntRange(min=1),
+    show_default=True,
 )
 @click.option(
-    "--use_variance_threshold", default=False, type=bool, show_default=True,
+    "--use_variance_threshold",
+    default=False,
+    type=bool,
+    show_default=True,
 )
 @click.option(
-    "--use_random_fores_classifier", default=False, type=bool, show_default=True,
+    "--use_random_fores_classifier",
+    default=False,
+    type=bool,
+    show_default=True,
 )
 @click.option(
-    "--use_sequential_feature_selector", default=False, type=bool, show_default=True,
+    "--use_sequential_feature_selector",
+    default=False,
+    type=bool,
+    show_default=True,
 )
 @click.option(
-    "--use_feature_reduction", default=False, type=bool, show_default=True,
+    "--use_feature_reduction",
+    default=False,
+    type=bool,
+    show_default=True,
 )
 @click.option(
-    "--n_iter", default=100, type=click.IntRange(min=1), show_default=True,
+    "--n_iter",
+    default=100,
+    type=click.IntRange(min=1),
+    show_default=True,
 )
 @click.option(
-    "--threshold", default=0.8, type=float, show_default=True,
+    "--threshold",
+    default=0.8,
+    type=float,
+    show_default=True,
 )
 @click.option(
-    "--n_neighbors", default=5, type=click.IntRange(min=1), show_default=True,
+    "--n_neighbors",
+    default=5,
+    type=click.IntRange(min=1),
+    show_default=True,
 )
 @click.option(
-    "--n_features_to_select", default=7, type=click.IntRange(min=1), show_default=True,
+    "--n_features_to_select",
+    default=7,
+    type=click.IntRange(min=1),
+    show_default=True,
 )
 @click.option(
-    "--use_cross_val", default=True, type=bool, show_default=True,
+    "--use_cross_val",
+    default=True,
+    type=bool,
+    show_default=True,
 )
 @click.option(
-    "--cv", default=5, type=int, show_default=True,
+    "--cv",
+    default=5,
+    type=int,
+    show_default=True,
 )
 @click.option(
-    "--use_agglomerative_clustering", default=False, type=bool, show_default=True,
+    "--use_agglomerative_clustering",
+    default=False,
+    type=bool,
+    show_default=True,
 )
-
 def train(
     dataset_path: Path,
     save_model_path: Path,
@@ -101,10 +148,12 @@ def train(
     n_features_to_select: int,
     use_cross_val: bool,
     cv: int,
-    use_agglomerative_clustering: bool
+    use_agglomerative_clustering: bool,
 ) -> None:
     features_train, features_val, target_train, target_val = get_dataset(
-        dataset_path, random_state, test_split_ratio,
+        dataset_path,
+        random_state,
+        test_split_ratio,
     )
     with mlflow.start_run():
         pipeline = create_pipeline(
@@ -121,14 +170,16 @@ def train(
             threshold,
             n_neighbors,
             n_features_to_select,
-            use_agglomerative_clustering
+            use_agglomerative_clustering,
         )
 
         pipeline.fit(features_train, target_train)
 
         if use_cross_val:
             cross_validator = KFold(n_splits=cv)
-            results = cross_validate(pipeline, features_val, target_val, cv=cross_validator)
+            results = cross_validate(
+                pipeline, features_val, target_val, cv=cross_validator
+            )
             accuracy = -np.mean(results["test_score"])
         else:
             accuracy = accuracy_score(target_val, pipeline.predict(features_val))
