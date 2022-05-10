@@ -6,13 +6,15 @@ This project uses [Forest train](https://www.kaggle.com/competitions/forest-cove
 
 
 ## Results
-[data folder screenshot](https://github.com/lizaveta56k/ML-22_evaluation-selection/blob/main/data_folder.png)
+1. [data folder screenshot](https://github.com/lizaveta56k/ML-22_evaluation-selection/blob/main/data_folder.png)
 
-[mlflow results screenshot](https://github.com/lizaveta56k/ML-22_evaluation-selection/blob/main/mlflow_results.png)
+2. [mlflow results screenshot](https://github.com/lizaveta56k/ML-22_evaluation-selection/blob/main/mlflow_results.png)
 
-[mypy results screenshot](https://github.com/lizaveta56k/ML-22_evaluation-selection/blob/main/mypy_results.png)
+3. [mypy results screenshot](https://github.com/lizaveta56k/ML-22_evaluation-selection/blob/main/mypy_results.png)
 
-[pytest results screenshot](https://github.com/lizaveta56k/ML-22_evaluation-selection/blob/main/pytest_results.png)
+4. [pytest results screenshot](https://github.com/lizaveta56k/ML-22_evaluation-selection/blob/main/pytest_results.png)
+
+5. [nox results screenshot](https://github.com/lizaveta56k/ML-22_evaluation-selection/blob/main/nox_results.png)
 
 
 ## Usage
