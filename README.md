@@ -12,6 +12,8 @@ This project uses [Forest train](https://www.kaggle.com/competitions/forest-cove
 
 [mypy results screenshot](https://github.com/lizaveta56k/ML-22_evaluation-selection/blob/main/mypy_results.png)
 
+[pytest results screenshot](https://github.com/lizaveta56k/ML-22_evaluation-selection/blob/main/pytest_results.png)
+
 
 ## Usage
 This package allows you to train model to classify forest categories.
