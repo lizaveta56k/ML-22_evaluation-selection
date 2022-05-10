@@ -5,7 +5,7 @@ import click
 import numpy as np
 import mlflow
 import mlflow.sklearn
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, completeness_score, v_measure_score
 from sklearn.model_selection import cross_validate, KFold
 
 from .data import get_dataset
@@ -47,7 +47,7 @@ from .pipeline import create_pipeline
 )
 @click.option(
     "--max-iter",
-    default=100,
+    default=500,
     type=click.IntRange(min=1),
     show_default=True,
 )
@@ -113,7 +113,7 @@ from .pipeline import create_pipeline
 )
 @click.option(
     "--use_cross_val",
-    default=True,
+    default=False,
     type=bool,
     show_default=True,
 )
@@ -124,7 +124,13 @@ from .pipeline import create_pipeline
     show_default=True,
 )
 @click.option(
-    "--use_agglomerative_clustering",
+    "--use_mlp_classifier",
+    default=False,
+    type=bool,
+    show_default=True,
+)
+@click.option(
+    "--use_decision_tree_classifier",
     default=False,
     type=bool,
     show_default=True,
@@ -148,7 +154,8 @@ def train(
     n_features_to_select: int,
     use_cross_val: bool,
     cv: int,
-    use_agglomerative_clustering: bool,
+    use_mlp_classifier: bool,
+    use_decision_tree_classifier: bool,
 ) -> None:
     features_train, features_val, target_train, target_val = get_dataset(
         dataset_path,
@@ -170,7 +177,8 @@ def train(
             threshold,
             n_neighbors,
             n_features_to_select,
-            use_agglomerative_clustering,
+            use_mlp_classifier,
+            use_decision_tree_classifier,
         )
 
         pipeline.fit(features_train, target_train)
@@ -183,6 +191,10 @@ def train(
             accuracy = -np.mean(results["test_score"])
         else:
             accuracy = accuracy_score(target_val, pipeline.predict(features_val))
+            completeness = completeness_score(
+                target_val, pipeline.predict(features_val)
+            )
+            v_score = v_measure_score(target_val, pipeline.predict(features_val))
 
         mlflow.log_param("use_scaler", use_scaler)
         mlflow.log_param("n_clusters", n_clusters)
@@ -199,9 +211,13 @@ def train(
         mlflow.log_param("n_neighbors", n_neighbors)
         mlflow.log_param("n_features_to_select", n_features_to_select)
         mlflow.log_param("use_cross_val", use_cross_val)
-        mlflow.log_param("use_agglomerative_clustering", use_agglomerative_clustering)
+        mlflow.log_param("use_mlp_classifier", use_mlp_classifier)
+        mlflow.log_param("use_decision_tree_classifier", use_decision_tree_classifier)
 
         mlflow.log_metric("accuracy", accuracy)
+        mlflow.log_metric("completeness", completeness)
+        mlflow.log_metric("v measure score", v_score)
+
         click.echo(f"Accuracy: {accuracy}.")
         dump(pipeline, save_model_path)
         click.echo(f"Model is saved to {save_model_path}.")

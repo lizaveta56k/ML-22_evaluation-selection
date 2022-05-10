@@ -1,4 +1,3 @@
-from sklearn.cluster import KMeans
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.impute import SimpleImputer
@@ -10,7 +9,8 @@ from sklearn.feature_selection import (
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.decomposition import TruncatedSVD
-from sklearn.cluster import AgglomerativeClustering
+from sklearn.neural_network import MLPClassifier
+from sklearn.tree import DecisionTreeClassifier
 
 
 def create_pipeline(
@@ -27,19 +27,21 @@ def create_pipeline(
     threshold: float,
     n_neighbors: int,
     n_features_to_select: int,
-    use_agglomerative_clustering: bool,
+    use_mlp_classifier: bool,
+    use_decision_tree_classifier: bool,
 ) -> Pipeline:
     pipeline_steps = []
     selector = SimpleImputer()
-    classifier = KMeans(
-        random_state=random_state,
-        n_clusters=n_clusters,
-        max_iter=max_iter,
-        n_init=n_init,
-    )
 
-    if use_agglomerative_clustering:
-        classifier = AgglomerativeClustering(n_clusters=n_clusters)
+    if use_scaler:
+        pipeline_steps.append(("scaler", StandardScaler()))
+
+    if use_mlp_classifier:
+        classifier = MLPClassifier(alpha=1, max_iter=max_iter)
+    elif use_decision_tree_classifier:
+        classifier = DecisionTreeClassifier(random_state=random_state)
+    else:
+        classifier = KNeighborsClassifier(n_neighbors=n_neighbors)
 
     if use_random_fores_classifier:
         selector = SelectFromModel(RandomForestClassifier(random_state=random_state))
@@ -68,8 +70,6 @@ def create_pipeline(
                 ),
             )
         )
-    if use_scaler:
-        pipeline_steps.append(("scaler", StandardScaler()))
     pipeline_steps.append(
         (
             "classifier",
