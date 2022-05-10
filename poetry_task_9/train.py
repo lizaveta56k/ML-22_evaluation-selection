@@ -40,13 +40,13 @@ from .pipeline import create_pipeline
     "--use-scaler", default=True, type=bool, show_default=True,
 )
 @click.option(
-    "--max-iter", default=100, type=int, show_default=True,
+    "--max-iter", default=100, type=click.IntRange(min=1), show_default=True,
 )
 @click.option(
-    "--n_init", default=10, type=int, show_default=True,
+    "--n_init", default=10, type=click.IntRange(min=1), show_default=True,
 )
 @click.option(
-    "--n_clusters", default=7, type=int, show_default=True,
+    "--n_clusters", default=7, type=click.IntRange(min=1), show_default=True,
 )
 @click.option(
     "--use_variance_threshold", default=False, type=bool, show_default=True,
@@ -61,16 +61,16 @@ from .pipeline import create_pipeline
     "--use_feature_reduction", default=False, type=bool, show_default=True,
 )
 @click.option(
-    "--n_iter", default=100, type=int, show_default=True,
+    "--n_iter", default=100, type=click.IntRange(min=1), show_default=True,
 )
 @click.option(
     "--threshold", default=0.8, type=float, show_default=True,
 )
 @click.option(
-    "--n_neighbors", default=5, type=int, show_default=True,
+    "--n_neighbors", default=5, type=click.IntRange(min=1), show_default=True,
 )
 @click.option(
-    "--n_features_to_select", default=7, type=int, show_default=True,
+    "--n_features_to_select", default=7, type=click.IntRange(min=1), show_default=True,
 )
 @click.option(
     "--use_cross_val", default=True, type=bool, show_default=True,
